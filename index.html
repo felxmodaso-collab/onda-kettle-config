@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio Onda — Kettle 02 · чайник ручной работы</title>
+<meta name="description" content="Studio Onda — Kettle 02. Керамический электрический чайник. Три ёмкости, три ручки. Один рабочий день на сборку, сто лет работы." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@300;500;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #e8e1d3;
+    --bg-2: #f0ead9;
+    --bg-card: #fbf7ee;
+    --ink: #2a241d;
+    --ink-2: #5c5247;
+    --dim: #a09583;
+    --sage: #aec3a6;
+    --walnut: #6b4a30;
+    --brass: #b69459;
+    --ash: #cfc6b8;
+    --accent: #2a241d;
+    --line: rgba(42,36,29,0.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px; line-height: 1.5;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+  .num-big {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* TOP NAV */
+  nav {
+    display: grid; grid-template-columns: auto 1fr auto auto;
+    gap: 2rem; align-items: center;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    position: sticky; top: 0; z-index: 30;
+  }
+  .brand {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900; font-size: 1.7rem;
+    letter-spacing: -0.02em; text-transform: uppercase;
+  }
+  .brand small {
+    font-family: 'DM Sans'; font-weight: 400; font-size: 11px;
+    letter-spacing: 0.2em; color: var(--dim);
+    text-transform: uppercase;
+    display: block; margin-top: -4px;
+  }
+  nav ul {
+    display: flex; gap: 2rem; list-style: none; justify-content: center;
+    font-size: 13px;
+  }
+  nav a { color: var(--ink-2); text-decoration: none; }
+  nav a:hover { color: var(--ink); }
+  .cart {
+    font-size: 13px; display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.4rem 0.9rem; border: 1px solid var(--line); border-radius: 100px;
+  }
+  .cart-dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--sage); border-radius: 50%;
+  }
+
+  /* --- CONFIGURATOR (MAIN FOLD) --- */
+  .config {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 2rem;
+    padding: 3rem 2.5rem;
+    min-height: calc(100vh - 80px);
+    align-items: center;
+  }
+
+  /* LEFT: Controls */
+  .ctrl-col {
+    display: flex; flex-direction: column; gap: 2.5rem;
+    padding-right: 1rem;
+  }
+  .ctrl-block .label { margin-bottom: 0.7rem; display: block; }
+  .ctrl-block h3 {
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 1.3rem; letter-spacing: 0.02em;
+    margin-bottom: 1rem; color: var(--ink);
+    text-transform: none;
+  }
+  .opts {
+    display: grid; gap: 0.5rem;
+  }
+  .opt {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 0.9rem;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .opt:hover { border-color: var(--ink); }
+  .opt.active {
+    border-color: var(--ink); border-width: 2px; padding: calc(0.9rem - 1px) calc(1rem - 1px);
+    background: var(--bg-2);
+  }
+  .opt .swatch {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+  .opt .swatch.walnut { background: var(--walnut); }
+  .opt .swatch.brass { background: var(--brass); }
+  .opt .swatch.ash { background: var(--ash); }
+  .opt .swatch.sz-s { background: var(--sage); transform: scale(0.7); }
+  .opt .swatch.sz-m { background: var(--sage); transform: scale(0.85); }
+  .opt .swatch.sz-l { background: var(--sage); transform: scale(1); }
+  .opt .o-name {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500; font-size: 14px;
+  }
+  .opt .o-name small {
+    display: block; font-size: 11.5px; color: var(--dim);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+  .opt .o-delta {
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 17px; color: var(--ink);
+  }
+  .opt .o-delta.negative { color: var(--dim); }
+  .opt .o-delta.zero { color: var(--dim); font-weight: 300; }
+
+  /* CENTER: Product */
+  .product-col {
+    position: relative;
+    text-align: center;
+  }
+  .product-img {
+    width: 100%; max-width: 480px;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .product-img:hover { transform: rotate(-2deg) translateY(-4px); }
+  .product-col .backdrop {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 440px; height: 440px;
+    background: var(--bg-2);
+    border-radius: 50%;
+    transform: translate(-50%, -48%);
+    z-index: 1;
+  }
+  .product-col .sku-tag {
+    position: absolute; top: 1rem; right: 1rem;
+    font-family: 'Big Shoulders Display';
+    font-weight: 500; font-size: 1rem;
+    letter-spacing: 0.15em;
+    color: var(--dim);
+    text-transform: uppercase;
+    z-index: 3;
+  }
+  .product-col .sku-tag strong { color: var(--ink); font-weight: 700; }
+  .product-col .detail-circle {
+    position: absolute;
+    z-index: 4;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+  .product-col .detail-circle::before {
+    content: ''; width: 60px; height: 1px; background: var(--ink-2);
+    margin-bottom: 2px;
+  }
+  .product-col .detail-circle.d1 { top: 28%; right: 2%; }
+  .product-col .detail-circle.d2 { bottom: 20%; left: 4%; align-items: flex-start; }
+  .product-col .detail-circle.d2::before { transform: scaleX(-1); }
+  .product-col .detail-circle strong {
+    font-family: 'Big Shoulders Display'; font-weight: 700; font-size: 13px;
+    color: var(--ink); letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* RIGHT: Specs + Price */
+  .spec-col {
+    display: flex; flex-direction: column; gap: 2rem;
+  }
+  .price-card {
+    background: var(--bg-card);
+    padding: 2rem 1.75rem;
+    border: 1px solid var(--line);
+  }
+  .price-card .price {
+    display: flex; align-items: baseline; gap: 0.5rem;
+    margin-bottom: 0.3rem;
+  }
+  .price-card .price-num {
+    font-family: 'Big Shoulders Display'; font-weight: 700;
+    font-size: 3.5rem; line-height: 0.9;
+    color: var(--ink);
+  }
+  .price-card .price-sub { font-size: 14px; color: var(--dim); }
+  .price-card .price-old {
+    font-size: 14px; color: var(--dim); text-decoration: line-through;
+    margin-bottom: 0.8rem;
+  }
+  .price-card .stock {
+    display: flex; gap: 0.5rem; align-items: center;
+    font-size: 12px; color: var(--ink-2);
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed var(--line);
+    margin-bottom: 1rem;
+  }
+  .price-card .stock-dot {
+    width: 8px; height: 8px; background: var(--sage); border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(174,195,166,0.25);
+  }
+  .price-card .btn-buy {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: var(--ink); color: var(--bg-card);
+    border: 0; cursor: pointer;
+    font-family: 'Big Shoulders Display'; font-weight: 700;
+    font-size: 1.1rem; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: background 0.2s;
+  }
+  .price-card .btn-buy:hover { background: var(--walnut); }
+  .price-card .btn-buy::after { content: ' →'; }
+  .price-card .shipping {
+    font-size: 11.5px; color: var(--dim);
+    margin-top: 0.8rem; text-align: center;
+  }
+
+  .spec-quick {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .sq {
+    font-size: 13px;
+  }
+  .sq .sq-n {
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 1.4rem; color: var(--ink);
+    letter-spacing: 0.02em;
+    margin-bottom: 1px;
+  }
+  .sq .sq-n em { font-style: normal; font-weight: 300; }
+  .sq .sq-l { font-size: 11px; color: var(--dim); letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* SECOND FOLD — bento-ish detail section */
+  .bento {
+    padding: 5rem 2.5rem;
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+  }
+  .bento-head {
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 2rem; align-items: end;
+    padding-bottom: 2.5rem; margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .bento-head h2 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    color: var(--ink);
+  }
+  .bento-head .one-liner {
+    font-size: 15px; color: var(--ink-2);
+    max-width: 40ch; text-align: left;
+    font-family: 'DM Sans';
+  }
+  .bento-head .year {
+    font-family: 'Big Shoulders Display'; font-weight: 300;
+    font-size: 3rem; color: var(--dim);
+    letter-spacing: -0.02em; line-height: 1;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(120px, auto);
+    gap: 1rem;
+  }
+  .bt {
+    padding: 1.5rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: 1rem;
+  }
+  .bt .label { margin-bottom: 0.5rem; }
+
+  /* bento placements */
+  .bt.story { grid-column: 1/4; grid-row: 1/3; }
+  .bt.mat { grid-column: 4/6; grid-row: 1; }
+  .bt.power { grid-column: 6/7; grid-row: 1/3; background: var(--ink); color: var(--bg-card); }
+  .bt.power .label { color: var(--ash); }
+  .bt.time { grid-column: 4/6; grid-row: 2; background: var(--sage); color: var(--ink); border-color: var(--sage); }
+  .bt.time .label { color: var(--ink-2); }
+  .bt.made { grid-column: 1/3; grid-row: 3; }
+  .bt.warranty { grid-column: 3/5; grid-row: 3; background: var(--walnut); color: var(--bg-card); border-color: var(--walnut); }
+  .bt.warranty .label { color: var(--ash); }
+  .bt.ship { grid-column: 5/7; grid-row: 3; }
+
+  .bt h3 {
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 1.3rem; letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .bt p { font-size: 13px; line-height: 1.55; opacity: 0.85; }
+  .bt .big-number {
+    font-family: 'Big Shoulders Display'; font-weight: 300;
+    font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+  .bt .big-number strong { font-weight: 900; }
+  .bt .big-number small { font-size: 0.3em; letter-spacing: 0.15em; }
+
+  /* process */
+  .process {
+    padding: 5rem 2.5rem;
+    background: var(--bg);
+  }
+  .process h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    text-align: center; margin-bottom: 0.5rem;
+  }
+  .process .p-sub { text-align: center; color: var(--ink-2); font-size: 15px; margin-bottom: 3rem; }
+  .process-row {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+  }
+  .step {
+    padding: 1.5rem 0;
+    border-top: 2px solid var(--ink);
+    position: relative;
+  }
+  .step .st-no {
+    font-family: 'Big Shoulders Display'; font-weight: 300;
+    font-size: 3rem; line-height: 0.9; color: var(--ink);
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .step h3 {
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 1.1rem; letter-spacing: 0.02em; text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .step p { font-size: 13px; color: var(--ink-2); }
+
+  /* CTA */
+  .cta-strip {
+    padding: 4rem 2.5rem;
+    background: var(--ink); color: var(--bg-card);
+    text-align: center;
+  }
+  .cta-strip h2 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    margin-bottom: 1rem;
+  }
+  .cta-strip p { font-size: 16px; max-width: 42ch; margin: 0 auto 2rem; color: rgba(251,247,238,0.75); }
+  .cta-strip .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--bg-card); color: var(--ink);
+    font-family: 'Big Shoulders Display'; font-weight: 700;
+    font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none;
+  }
+  .cta-strip .btn:hover { background: var(--sage); }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 2.5rem 2rem;
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .foot-brand .brand { color: var(--ink); font-size: 2rem; }
+  .foot-brand p { font-size: 13px; color: var(--ink-2); max-width: 36ch; margin-top: 0.5rem; }
+  .foot-col h4 { font-family: 'Big Shoulders Display'; font-weight: 700; font-size: 13px; letter-spacing: 0.15em; margin-bottom: 0.8rem; text-transform: uppercase; }
+  .foot-col ul { list-style: none; }
+  .foot-col li { margin-bottom: 0.4rem; font-size: 13px; }
+  .foot-col a { color: var(--ink-2); text-decoration: none; }
+  .foot-col a:hover { color: var(--ink); }
+  .foot-bot {
+    margin-top: 1.5rem;
+    display: flex; justify-content: space-between;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--dim); flex-wrap: wrap; gap: 0.5rem;
+  }
+
+  @media (max-width: 900px) {
+    nav { grid-template-columns: auto auto; gap: 1rem; padding: 1rem 1.25rem; }
+    nav ul { display: none; }
+    .config { grid-template-columns: 1fr; padding: 2rem 1.25rem; gap: 3rem; }
+    .product-col { order: -1; }
+    .ctrl-col { padding-right: 0; }
+    .bento-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+    .bt { grid-column: 1 / -1 !important; grid-row: auto !important; }
+    .process-row { grid-template-columns: 1fr 1fr; }
+    .foot-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .bento-head { grid-template-columns: 1fr; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">
+    ONDA<small>studio</small>
+  </div>
+  <ul>
+    <li><a href="#spec">Материалы</a></li>
+    <li><a href="#process">Процесс</a></li>
+    <li><a href="#">Ателье</a></li>
+    <li><a href="#">Журнал</a></li>
+  </ul>
+  <a href="#" style="font-size: 13px; color: var(--ink-2); text-decoration: none;">RU / EN</a>
+  <div class="cart"><span class="cart-dot"></span>В корзине: 0</div>
+</nav>
+
+<!-- CONFIGURATOR -->
+<section class="config">
+  <!-- LEFT: Controls -->
+  <div class="ctrl-col">
+    <div class="ctrl-block">
+      <span class="label">Шаг 1 / Ручка</span>
+      <h3>Из чего рукоять</h3>
+      <div class="opts" data-group="handle">
+        <div class="opt active" data-val="walnut" data-price="0" data-label="Американский орех">
+          <span class="swatch walnut"></span>
+          <span class="o-name">Орех<small>тёмный, плотный, с матовым маслом</small></span>
+          <span class="o-delta zero">в цене</span>
+        </div>
+        <div class="opt" data-val="ash" data-price="-2400" data-label="Светлый ясень">
+          <span class="swatch ash"></span>
+          <span class="o-name">Ясень<small>светлее, мягкий рисунок, чуть мягче в руке</small></span>
+          <span class="o-delta negative">−2 400 ₽</span>
+        </div>
+        <div class="opt" data-val="brass" data-price="+6800" data-label="Латунь ручной патины">
+          <span class="swatch brass"></span>
+          <span class="o-name">Латунь<small>ручная патина, с годами становится глубже</small></span>
+          <span class="o-delta">+6 800 ₽</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-block">
+      <span class="label">Шаг 2 / Ёмкость</span>
+      <h3>Сколько воды</h3>
+      <div class="opts" data-group="size">
+        <div class="opt" data-val="s" data-price="-4900" data-label="0.8 литра" data-cups="4" data-watt="1200">
+          <span class="swatch sz-s"></span>
+          <span class="o-name">0.8 л<small>на 4 чашки · 1200 Вт · кипит за 3:10</small></span>
+          <span class="o-delta negative">−4 900 ₽</span>
+        </div>
+        <div class="opt active" data-val="m" data-price="0" data-label="1.2 литра" data-cups="6" data-watt="1500">
+          <span class="swatch sz-m"></span>
+          <span class="o-name">1.2 л <strong style="color: var(--sage); font-weight:500;">· выбор по умолчанию</strong><small>на 6 чашек · 1500 Вт · кипит за 3:30</small></span>
+          <span class="o-delta zero">в цене</span>
+        </div>
+        <div class="opt" data-val="l" data-price="+5200" data-label="1.6 литра" data-cups="8" data-watt="1800">
+          <span class="swatch sz-l"></span>
+          <span class="o-name">1.6 л<small>на 8 чашек · 1800 Вт · кипит за 3:25</small></span>
+          <span class="o-delta">+5 200 ₽</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctrl-block">
+      <span class="label">Шаг 3 / Гравировка</span>
+      <h3>Написать что-нибудь</h3>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <input type="text" id="engrave" placeholder="пусто · или имя, или дата" maxlength="18"
+               style="flex: 1; padding: 0.9rem 1rem; background: var(--bg-card); border: 1px solid var(--line); font-family: 'DM Sans'; font-size: 14px; color: var(--ink);" />
+        <span class="opt" style="padding: 0.9rem 1rem; cursor: default; grid-template-columns: auto; gap: 0; font-size: 12.5px; color: var(--dim);">+1 400 ₽</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER: Product -->
+  <div class="product-col">
+    <div class="backdrop"></div>
+    <span class="sku-tag">SKU · <strong id="sku">K02-W-M</strong></span>
+    <img src="images/kettle.webp" alt="Studio Onda Kettle 02" class="product-img" id="product-img" />
+    <div class="detail-circle d1">
+      <strong>Носик</strong>
+      <span>матовая сталь<br>направленная струя</span>
+    </div>
+    <div class="detail-circle d2">
+      <strong>Корпус</strong>
+      <span>керамика Shigaraki<br>1280° обжиг</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: Price & Specs -->
+  <div class="spec-col">
+    <div class="price-card">
+      <span class="label">Ваша конфигурация</span>
+      <div class="price" style="margin-top: 0.5rem;">
+        <span class="price-num" id="price">38 900</span>
+        <span class="price-sub">₽</span>
+      </div>
+      <div class="price-old">До скидки: <strong>42 900 ₽</strong> · ранняя подписка</div>
+      <div class="stock"><span class="stock-dot"></span><span id="stock">15 в наличии · отправка завтра</span></div>
+      <button class="btn-buy">В корзину</button>
+      <div class="shipping">СДЭК по Москве — бесплатно · по РФ — 390 ₽</div>
+    </div>
+    <div class="spec-quick">
+      <div class="sq">
+        <div class="sq-n" id="sq-cups">6 <em>чашек</em></div>
+        <div class="sq-l">вместимость</div>
+      </div>
+      <div class="sq">
+        <div class="sq-n" id="sq-watt">1500 <em>вт</em></div>
+        <div class="sq-l">мощность</div>
+      </div>
+      <div class="sq">
+        <div class="sq-n" id="sq-vol">1.2 <em>л</em></div>
+        <div class="sq-l">объём</div>
+      </div>
+      <div class="sq">
+        <div class="sq-n" id="sq-h">орех</div>
+        <div class="sq-l">рукоять</div>
+      </div>
+    </div>
+    <div style="font-size: 12px; color: var(--dim); padding: 1rem; background: var(--bg-card); border-left: 2px solid var(--sage);">
+      Каждый чайник собирается в ателье по адресу <strong style="color: var(--ink);">Москва, Дубининская 35</strong>. Срок от заказа до отправки — 6 рабочих дней. Гарантия — 5 лет на керамику, 10 — на нагреватель.
+    </div>
+  </div>
+</section>
+
+<!-- BENTO: details -->
+<section class="bento" id="spec">
+  <div class="bento-head">
+    <h2>Один чайник<br>на кухне,<br>десять <em style="color: var(--walnut); font-style: normal;">лет</em>.</h2>
+    <div class="one-liner">Kettle 02 — второй предмет в каталоге Studio Onda. Первый был табуретом, третьего пока нет. Мы делаем медленно и никуда не спешим.</div>
+    <div class="year">— 02</div>
+  </div>
+
+  <div class="bento-grid">
+    <div class="bt story">
+      <span class="label">Идея</span>
+      <h3>Кухня — комната, а не фабрика</h3>
+      <p>На кухне ты и так быстрый. Мы не делали быстрый чайник, мы делали чайник, который приятно брать в руку. Он тяжеловат, но эта тяжесть — специально.</p>
+      <p>Керамика холодная снаружи даже на максимальной температуре. Рукоять матовая, она не скользит. Носик — одна тонкая струя, без брызг.</p>
+    </div>
+    <div class="bt mat">
+      <span class="label">Корпус</span>
+      <div class="big-number"><strong>1280<small> °C</small></strong></div>
+      <p>Керамика Shigaraki, обжиг в японской традиции. Корпус отлит в одной форме целиком, без шва.</p>
+    </div>
+    <div class="bt power">
+      <span class="label" style="color: var(--ash);">Мощность</span>
+      <div class="big-number" style="color: var(--bg-card);">1500<small>ВТ</small></div>
+      <p style="color: rgba(251,247,238,0.75);">Кипятит 1.2 литра за 3:30. Поддерживает температуру 30 минут на остатке энергии.</p>
+    </div>
+    <div class="bt time">
+      <span class="label">Сборка</span>
+      <div class="big-number">1<small> РАБ. ДЕНЬ</small></div>
+      <p>От получения заказа до упаковки проходит один рабочий день. Пять лет на керамику, десять — на нагреватель.</p>
+    </div>
+    <div class="bt made">
+      <span class="label">Сделано</span>
+      <h3>В Москве, на Дубининской</h3>
+      <p>Ателье 68 м². Керамика — Светлана и Паша. Электроника — Дима. Дерево — Саша. Сайт и фото — Онда.</p>
+    </div>
+    <div class="bt warranty">
+      <span class="label" style="color: var(--ash);">Гарантия</span>
+      <div class="big-number" style="color: var(--bg-card);">10 <small>лет</small></div>
+      <p style="color: rgba(251,247,238,0.8);">На нагреватель. Керамика — 5 лет. Если что — чиним в ателье, без пересылок.</p>
+    </div>
+    <div class="bt ship">
+      <span class="label">Доставка</span>
+      <h3>СДЭК, Яндекс Доставка, лично</h3>
+      <p>По Москве — бесплатно, в день отправки. По РФ — 390 ₽, 2-4 дня. В ателье можно забрать самому.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <h2>Процесс <em style="color: var(--sage); font-style: normal;">без</em> магии</h2>
+  <p class="p-sub">Как выглядит один Kettle 02 от заказа до коробки</p>
+  <div class="process-row">
+    <div class="step">
+      <div class="st-no">01</div>
+      <h3>День 1 · заказ</h3>
+      <p>Вы выбираете ручку и ёмкость. Мы отвечаем в течение часа и подтверждаем конфиг в чате.</p>
+    </div>
+    <div class="step">
+      <div class="st-no">02</div>
+      <h3>День 2-3 · керамика</h3>
+      <p>Корпус достаётся из склада или запускается в обжиг (если последний был 3+ дня назад).</p>
+    </div>
+    <div class="step">
+      <div class="st-no">03</div>
+      <h3>День 4-5 · сборка</h3>
+      <p>Дерево приезжает с мастерской в Тверской области. Электроника ставится, тестируется 2 часа на реальном кипятке.</p>
+    </div>
+    <div class="step">
+      <div class="st-no">04</div>
+      <h3>День 6 · коробка</h3>
+      <p>Упаковка — переработанная бумажная масса. Внутри — инструкция и благодарственная записка от автора.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-strip">
+  <h2>Сделайте заказ —<br>собрать успеем <em style="color: var(--sage); font-style: normal;">к четвергу</em>.</h2>
+  <p>Без подписок, без автосписаний, без акций «купи два, получи третий». Один заказ — один чайник — один клиент.</p>
+  <a href="#top" class="btn">Собрать свой →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="brand">ONDA<small>studio</small></div>
+      <p>Мастерская одного предмета за раз. Работаем с 2021. Второй предмет в каталоге — чайник Kettle 02.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Продукт</h4>
+      <ul>
+        <li><a href="#">Kettle 02</a></li>
+        <li><a href="#">Stool 01 (архив)</a></li>
+        <li><a href="#">В работе: Board 03</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Студия</h4>
+      <ul>
+        <li><a href="#">Как устроено</a></li>
+        <li><a href="#">Журнал</a></li>
+        <li><a href="#">Контакт</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Связь</h4>
+      <ul>
+        <li>hello@onda.studio</li>
+        <li>Москва, Дубининская 35</li>
+        <li>Пн-Пт 10-19</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2021–2026 Studio Onda · ИП Гриднева Е.А.</span>
+    <span>Спек-демо · @rajion9</span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const state = {
+    handle: 'walnut',
+    handleLabel: 'Американский орех',
+    handleShort: 'орех',
+    size: 'm',
+    sizeLabel: '1.2 литра',
+    cups: 6, watt: 1500, vol: '1.2',
+    engrave: false,
+    base: 38900,
+    handleDelta: 0,
+    sizeDelta: 0,
+  };
+
+  function fmtPrice(n) {
+    return n.toLocaleString('ru-RU').replace(/,/g, ' ');
+  }
+
+  function updateUI() {
+    const total = state.base + state.handleDelta + state.sizeDelta + (state.engrave ? 1400 : 0);
+    document.getElementById('price').textContent = fmtPrice(total);
+
+    const sku = `K02-${state.handle[0].toUpperCase()}-${state.size.toUpperCase()}${state.engrave ? '-G' : ''}`;
+    document.getElementById('sku').textContent = sku;
+
+    document.getElementById('sq-cups').innerHTML = `${state.cups} <em>чашек</em>`;
+    document.getElementById('sq-watt').innerHTML = `${state.watt} <em>вт</em>`;
+    document.getElementById('sq-vol').innerHTML = `${state.vol} <em>л</em>`;
+    document.getElementById('sq-h').textContent = state.handleShort;
+
+    // stock copy based on config
+    const stock = state.handle === 'brass' ? '4 в наличии · отправка через 3 дня' : '15 в наличии · отправка завтра';
+    document.getElementById('stock').textContent = stock;
+  }
+
+  document.querySelectorAll('.opts').forEach(group => {
+    group.addEventListener('click', (e) => {
+      const opt = e.target.closest('.opt');
+      if (!opt) return;
+      group.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      const g = group.dataset.group;
+      const val = opt.dataset.val;
+      const price = parseInt(opt.dataset.price || 0, 10);
+      const label = opt.dataset.label;
+      if (g === 'handle') {
+        state.handle = val;
+        state.handleLabel = label;
+        state.handleShort = val === 'walnut' ? 'орех' : val === 'ash' ? 'ясень' : 'латунь';
+        state.handleDelta = price;
+      } else if (g === 'size') {
+        state.size = val;
+        state.sizeLabel = label;
+        state.cups = parseInt(opt.dataset.cups, 10);
+        state.watt = parseInt(opt.dataset.watt, 10);
+        state.vol = val === 's' ? '0.8' : val === 'l' ? '1.6' : '1.2';
+        state.sizeDelta = price;
+      }
+      updateUI();
+    });
+  });
+
+  document.getElementById('engrave').addEventListener('input', (e) => {
+    state.engrave = e.target.value.trim().length > 0;
+    updateUI();
+  });
+
+  updateUI();
+
+  // subtle tilt on product hover
+  const prod = document.getElementById('product-img');
+  const col = prod.parentElement;
+  col.addEventListener('pointermove', (e) => {
+    const r = col.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    prod.style.transform = `rotate(${-x * 4}deg) translate(${x * 12}px, ${y * 6}px)`;
+  });
+  col.addEventListener('pointerleave', () => {
+    prod.style.transform = '';
+  });
+})();
+</script>
+
+</body>
+</html>
