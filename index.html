@@ -201,6 +201,26 @@
   .product-col .detail-circle.d1 { top: 28%; right: 2%; }
   .product-col .detail-circle.d2 { bottom: 20%; left: 4%; align-items: flex-start; }
   .product-col .detail-circle.d2::before { transform: scaleX(-1); }
+  .product-col .engrave-preview {
+    position: absolute;
+    bottom: 32%; left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    font-family: 'Big Shoulders Display';
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--walnut);
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+    background: rgba(251,247,238,0.9);
+    padding: 3px 9px;
+    border: 1px solid var(--walnut);
+    pointer-events: none;
+  }
+  .product-col.has-engrave .engrave-preview { opacity: 0.95; }
   .product-col .detail-circle strong {
     font-family: 'Big Shoulders Display'; font-weight: 700; font-size: 13px;
     color: var(--ink); letter-spacing: 0.05em;
@@ -425,6 +445,7 @@
     nav ul { display: none; }
     .config { grid-template-columns: 1fr; padding: 2rem 1.25rem; gap: 3rem; }
     .product-col { order: -1; }
+    .product-col .detail-circle { display: none; }
     .ctrl-col { padding-right: 0; }
     .bento-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
     .bt { grid-column: 1 / -1 !important; grid-row: auto !important; }
@@ -514,6 +535,7 @@
     <div class="backdrop"></div>
     <span class="sku-tag">SKU · <strong id="sku">K02-W-M</strong></span>
     <img src="images/kettle.webp" alt="Studio Onda Kettle 02" class="product-img" id="product-img" />
+    <span class="engrave-preview" id="engrave-preview"></span>
     <div class="detail-circle d1">
       <strong>Носик</strong>
       <span>матовая сталь<br>направленная струя</span>
@@ -745,8 +767,13 @@
     });
   });
 
+  const engravePreview = document.getElementById('engrave-preview');
+  const productCol = document.querySelector('.product-col');
   document.getElementById('engrave').addEventListener('input', (e) => {
-    state.engrave = e.target.value.trim().length > 0;
+    const val = e.target.value.trim();
+    state.engrave = val.length > 0;
+    engravePreview.textContent = val;
+    productCol.classList.toggle('has-engrave', state.engrave);
     updateUI();
   });
 
