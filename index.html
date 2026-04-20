@@ -91,208 +91,320 @@
   /* --- CONFIGURATOR (MAIN FOLD) --- */
   .config {
     display: grid;
-    grid-template-columns: 1fr 1.2fr 1fr;
-    gap: 2rem;
-    padding: 3rem 2.5rem;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3rem;
+    padding: 3rem 2.5rem 4rem;
     min-height: calc(100vh - 80px);
-    align-items: center;
+    align-items: stretch;
   }
 
-  /* LEFT: Controls */
-  .ctrl-col {
-    display: flex; flex-direction: column; gap: 2.5rem;
-    padding-right: 1rem;
+  /* LEFT: Product photo as editorial hero */
+  .product-col {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    padding: 1.4rem 1.5rem 1.5rem;
+    min-height: 640px;
   }
-  .ctrl-block .label { margin-bottom: 0.7rem; display: block; }
-  .ctrl-block h3 {
+  .product-meta {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    font-family: 'Big Shoulders Display';
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--dim);
+    font-weight: 500;
+  }
+  .product-meta .sku-label { color: var(--dim); }
+  .product-meta .sku-label strong {
+    color: var(--ink); font-weight: 700;
+    font-size: 14px; letter-spacing: 0.12em;
+    margin-left: 0.4rem;
+  }
+  .product-meta .year {
+    font-weight: 300; font-size: 14px;
+    letter-spacing: 0; text-transform: none;
+    color: var(--ink-2);
+  }
+  .product-stage {
+    position: relative;
+    display: grid; place-items: center;
+    overflow: hidden;
+    margin: 0.5rem 0;
+  }
+  .product-stage::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 78%; aspect-ratio: 1;
+    transform: translate(-50%, -46%);
+    background: radial-gradient(circle, rgba(42,36,29,0.06) 0%, transparent 70%);
+    z-index: 0;
+  }
+  .product-img {
+    width: 100%;
+    max-width: 480px;
+    max-height: 540px;
+    object-fit: contain;
+    position: relative; z-index: 2;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .product-img:hover { transform: scale(1.015) rotate(-0.5deg); }
+
+  /* Side ruler marks — editorial reference */
+  .product-stage .ruler {
+    position: absolute;
+    left: 0.75rem; top: 0; bottom: 0;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Big Shoulders Display';
+    font-weight: 500;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: var(--dim); text-transform: uppercase;
+    z-index: 3;
+  }
+  .product-stage .ruler::before {
+    content: ''; position: absolute;
+    left: 22px; top: 0; bottom: 0;
+    border-left: 1px dashed var(--line);
+  }
+  .product-stage .ruler span { position: relative; padding-left: 34px; line-height: 1; }
+  .product-stage .ruler span::before {
+    content: ''; position: absolute;
+    left: 18px; top: 50%;
+    width: 9px; height: 1px;
+    background: var(--dim);
+  }
+
+  /* Selection preview plaque (honest engrave preview) */
+  .sel-bar {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .sel-bar .sel {
+    display: flex; align-items: center; gap: 0.55rem;
+  }
+  .sel-bar .sel .sw {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid var(--line); flex-shrink: 0;
+    transition: background 0.25s, transform 0.25s;
+  }
+  .sel-bar .sel .sw.walnut { background: var(--walnut); }
+  .sel-bar .sel .sw.brass { background: var(--brass); }
+  .sel-bar .sel .sw.ash { background: var(--ash); }
+  .sel-bar .sel .sw-sz {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid var(--ink); background: transparent;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .sel-bar .sel .sw-sz::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 60%; height: 60%;
+    transform: translate(-50%, -50%);
+    background: var(--ink);
+    border-radius: 50%;
+    transition: all 0.25s;
+  }
+  .sel-bar .sel.size-s .sw-sz::after { width: 32%; height: 32%; }
+  .sel-bar .sel.size-m .sw-sz::after { width: 55%; height: 55%; }
+  .sel-bar .sel.size-l .sw-sz::after { width: 78%; height: 78%; }
+  .sel-bar .sel .sel-k { color: var(--dim); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; display: block; }
+  .sel-bar .sel .sel-v { font-weight: 500; color: var(--ink); font-size: 13px; }
+  .sel-bar .sel .plaque {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-2);
+    border: 1px solid var(--walnut);
+    color: var(--walnut);
     font-family: 'Big Shoulders Display'; font-weight: 500;
-    font-size: 1.3rem; letter-spacing: 0.02em;
-    margin-bottom: 1rem; color: var(--ink);
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    max-width: 120px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .sel-bar .sel .plaque.empty {
+    color: var(--dim); border-style: dashed; border-color: var(--line);
+    font-weight: 300; letter-spacing: 0.1em;
+  }
+
+  /* RIGHT: config panel */
+  .cfg-panel {
+    display: flex; flex-direction: column; gap: 1.8rem;
+  }
+  .cfg-head {
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .cfg-head h1 {
+    font-family: 'Big Shoulders Display'; font-weight: 700;
+    font-size: clamp(2.4rem, 4vw, 3.3rem);
+    letter-spacing: -0.01em; line-height: 0.95;
+    color: var(--ink);
     text-transform: none;
   }
-  .opts {
-    display: grid; gap: 0.5rem;
+  .cfg-head h1 em { font-style: italic; color: var(--walnut); font-weight: 500; }
+  .cfg-head .sub {
+    font-size: 13.5px; color: var(--ink-2);
+    max-width: 38ch; line-height: 1.55;
+    margin-top: 0.35rem;
   }
+
+  .ctrl-block .label {
+    margin-bottom: 0.55rem; display: inline-block;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .ctrl-block h3 {
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 1.15rem; letter-spacing: 0.02em;
+    margin-bottom: 0.7rem; color: var(--ink);
+    text-transform: none;
+  }
+  .opts { display: grid; gap: 0.4rem; }
   .opt {
-    display: grid; grid-template-columns: auto 1fr auto; gap: 0.9rem;
+    display: grid; grid-template-columns: auto 1fr auto; gap: 0.8rem;
     align-items: center;
-    padding: 0.9rem 1rem;
+    padding: 0.75rem 0.9rem;
     background: var(--bg-card);
     border: 1px solid var(--line);
     cursor: pointer;
     transition: all 0.2s;
   }
-  .opt:hover { border-color: var(--ink); }
+  .opt:hover { border-color: var(--ink-2); }
   .opt.active {
-    border-color: var(--ink); border-width: 2px; padding: calc(0.9rem - 1px) calc(1rem - 1px);
+    border-color: var(--ink); border-width: 2px;
+    padding: calc(0.75rem - 1px) calc(0.9rem - 1px);
     background: var(--bg-2);
   }
   .opt .swatch {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: 1px solid var(--line);
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1px solid var(--line); flex-shrink: 0;
   }
   .opt .swatch.walnut { background: var(--walnut); }
   .opt .swatch.brass { background: var(--brass); }
   .opt .swatch.ash { background: var(--ash); }
-  .opt .swatch.sz-s { background: var(--sage); transform: scale(0.7); }
-  .opt .swatch.sz-m { background: var(--sage); transform: scale(0.85); }
-  .opt .swatch.sz-l { background: var(--sage); transform: scale(1); }
+  .opt .swatch.sz-s { background: transparent; border: 1px solid var(--ink); position: relative; }
+  .opt .swatch.sz-s::after { content: ''; position: absolute; inset: 0; margin: auto; width: 30%; height: 30%; background: var(--ink); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .opt .swatch.sz-m { background: transparent; border: 1px solid var(--ink); position: relative; }
+  .opt .swatch.sz-m::after { content: ''; position: absolute; width: 55%; height: 55%; background: var(--ink); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .opt .swatch.sz-l { background: var(--ink); }
   .opt .o-name {
     font-family: 'DM Sans', sans-serif;
-    font-weight: 500; font-size: 14px;
+    font-weight: 500; font-size: 13.5px;
+    line-height: 1.3;
   }
   .opt .o-name small {
     display: block; font-size: 11.5px; color: var(--dim);
     font-weight: 400;
-    margin-top: 1px;
+    margin-top: 2px;
   }
   .opt .o-delta {
     font-family: 'Big Shoulders Display'; font-weight: 500;
-    font-size: 17px; color: var(--ink);
+    font-size: 15px; color: var(--ink);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
   }
   .opt .o-delta.negative { color: var(--dim); }
   .opt .o-delta.zero { color: var(--dim); font-weight: 300; }
 
-  /* CENTER: Product */
-  .product-col {
-    position: relative;
-    text-align: center;
+  .engrave-row {
+    display: grid; grid-template-columns: 1fr auto; gap: 0.4rem;
   }
-  .product-img {
-    width: 100%; max-width: 480px;
-    margin: 0 auto;
-    display: block;
-    position: relative;
-    z-index: 2;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  .engrave-row input {
+    padding: 0.8rem 0.95rem;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    font-family: 'DM Sans'; font-size: 13.5px; color: var(--ink);
+    outline: none; transition: border-color 0.2s;
   }
-  .product-img:hover { transform: rotate(-2deg) translateY(-4px); }
-  .product-col .backdrop {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 440px; height: 440px;
-    background: var(--bg-2);
-    border-radius: 50%;
-    transform: translate(-50%, -48%);
-    z-index: 1;
+  .engrave-row input:focus { border-color: var(--ink); }
+  .engrave-row .delta {
+    display: flex; align-items: center;
+    padding: 0.8rem 0.9rem;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    font-family: 'Big Shoulders Display'; font-weight: 500;
+    font-size: 14px; color: var(--dim); letter-spacing: 0.02em;
   }
-  .product-col .sku-tag {
-    position: absolute; top: 1rem; right: 1rem;
-    font-family: 'Big Shoulders Display';
-    font-weight: 500; font-size: 1rem;
-    letter-spacing: 0.15em;
-    color: var(--dim);
-    text-transform: uppercase;
-    z-index: 3;
-  }
-  .product-col .sku-tag strong { color: var(--ink); font-weight: 700; }
-  .product-col .detail-circle {
-    position: absolute;
-    z-index: 4;
-    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
-    font-size: 11px;
-    color: var(--ink-2);
-    line-height: 1.3;
-  }
-  .product-col .detail-circle::before {
-    content: ''; width: 60px; height: 1px; background: var(--ink-2);
-    margin-bottom: 2px;
-  }
-  .product-col .detail-circle.d1 { top: 28%; right: 2%; }
-  .product-col .detail-circle.d2 { bottom: 20%; left: 4%; align-items: flex-start; }
-  .product-col .detail-circle.d2::before { transform: scaleX(-1); }
-  .product-col .engrave-preview {
-    position: absolute;
-    bottom: 32%; left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    font-family: 'Big Shoulders Display';
-    font-weight: 500;
-    font-size: 14px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--walnut);
-    opacity: 0;
-    transition: opacity 0.3s;
-    white-space: nowrap;
-    background: rgba(251,247,238,0.9);
-    padding: 3px 9px;
-    border: 1px solid var(--walnut);
-    pointer-events: none;
-  }
-  .product-col.has-engrave .engrave-preview { opacity: 0.95; }
-  .product-col .detail-circle strong {
-    font-family: 'Big Shoulders Display'; font-weight: 700; font-size: 13px;
-    color: var(--ink); letter-spacing: 0.05em;
-    text-transform: uppercase;
+  .engrave-hint {
+    font-size: 11.5px; color: var(--dim); margin-top: 0.35rem;
   }
 
-  /* RIGHT: Specs + Price */
-  .spec-col {
-    display: flex; flex-direction: column; gap: 2rem;
-  }
+  /* Price + specs block (inside right panel) */
   .price-card {
-    background: var(--bg-card);
-    padding: 2rem 1.75rem;
-    border: 1px solid var(--line);
+    background: var(--ink); color: var(--bg-card);
+    padding: 1.6rem 1.5rem;
+    margin-top: 0.4rem;
   }
+  .price-card .label { color: rgba(251,247,238,0.55); }
   .price-card .price {
     display: flex; align-items: baseline; gap: 0.5rem;
-    margin-bottom: 0.3rem;
+    margin: 0.4rem 0 0.25rem;
   }
   .price-card .price-num {
     font-family: 'Big Shoulders Display'; font-weight: 700;
-    font-size: 3.5rem; line-height: 0.9;
-    color: var(--ink);
+    font-size: 3rem; line-height: 0.9;
+    letter-spacing: -0.015em;
+    color: var(--bg-card);
   }
-  .price-card .price-sub { font-size: 14px; color: var(--dim); }
+  .price-card .price-sub { font-size: 14px; color: rgba(251,247,238,0.6); }
   .price-card .price-old {
-    font-size: 14px; color: var(--dim); text-decoration: line-through;
-    margin-bottom: 0.8rem;
+    font-size: 12px; color: rgba(251,247,238,0.55); text-decoration: line-through;
+    margin-bottom: 0.7rem;
   }
   .price-card .stock {
     display: flex; gap: 0.5rem; align-items: center;
-    font-size: 12px; color: var(--ink-2);
-    padding-bottom: 1rem;
-    border-bottom: 1px dashed var(--line);
-    margin-bottom: 1rem;
+    font-size: 12px; color: rgba(251,247,238,0.75);
+    padding: 0.8rem 0;
+    border-top: 1px dashed rgba(251,247,238,0.15);
+    border-bottom: 1px dashed rgba(251,247,238,0.15);
+    margin: 0.5rem 0 1rem;
   }
   .price-card .stock-dot {
     width: 8px; height: 8px; background: var(--sage); border-radius: 50%;
-    box-shadow: 0 0 0 4px rgba(174,195,166,0.25);
+    box-shadow: 0 0 0 4px rgba(174,195,166,0.18);
   }
   .price-card .btn-buy {
     width: 100%;
-    padding: 1rem 1.25rem;
-    background: var(--ink); color: var(--bg-card);
+    padding: 0.95rem 1.2rem;
+    background: var(--bg-card); color: var(--ink);
     border: 0; cursor: pointer;
     font-family: 'Big Shoulders Display'; font-weight: 700;
-    font-size: 1.1rem; letter-spacing: 0.08em; text-transform: uppercase;
+    font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase;
     transition: background 0.2s;
   }
-  .price-card .btn-buy:hover { background: var(--walnut); }
+  .price-card .btn-buy:hover { background: var(--sage); }
   .price-card .btn-buy::after { content: ' →'; }
   .price-card .shipping {
-    font-size: 11.5px; color: var(--dim);
-    margin-top: 0.8rem; text-align: center;
+    font-size: 11px; color: rgba(251,247,238,0.6);
+    margin-top: 0.7rem; text-align: center;
   }
 
   .spec-quick {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem;
+    padding-top: 1rem;
   }
-  .sq {
-    font-size: 13px;
-  }
+  .sq { font-size: 12px; }
   .sq .sq-n {
     font-family: 'Big Shoulders Display'; font-weight: 500;
-    font-size: 1.4rem; color: var(--ink);
+    font-size: 1.25rem; color: var(--ink);
     letter-spacing: 0.02em;
-    margin-bottom: 1px;
+    margin-bottom: 2px; line-height: 1;
   }
-  .sq .sq-n em { font-style: normal; font-weight: 300; }
-  .sq .sq-l { font-size: 11px; color: var(--dim); letter-spacing: 0.15em; text-transform: uppercase; }
+  .sq .sq-n em { font-style: normal; font-weight: 300; font-size: 0.7em; color: var(--ink-2); }
+  .sq .sq-l { font-size: 10.5px; color: var(--dim); letter-spacing: 0.15em; text-transform: uppercase; }
+  .atelier-note {
+    font-size: 11.5px; color: var(--ink-2);
+    padding: 0.9rem 1rem;
+    background: var(--bg-card);
+    border-left: 2px solid var(--sage);
+    line-height: 1.55;
+  }
+  .atelier-note strong { color: var(--ink); }
 
   /* SECOND FOLD — bento-ish detail section */
   .bento {
@@ -443,15 +555,18 @@
   @media (max-width: 900px) {
     nav { grid-template-columns: auto auto; gap: 1rem; padding: 1rem 1.25rem; }
     nav ul { display: none; }
-    .config { grid-template-columns: 1fr; padding: 2rem 1.25rem; gap: 3rem; }
-    .product-col { order: -1; }
-    .product-col .detail-circle { display: none; }
-    .ctrl-col { padding-right: 0; }
+    .config { grid-template-columns: 1fr; padding: 2rem 1.25rem; gap: 2rem; }
+    .product-col { order: -1; min-height: auto; padding: 1rem 1rem 1.2rem; }
+    .product-img { max-height: 360px; }
+    .sel-bar { grid-template-columns: 1fr 1fr; }
+    .sel-bar .sel.engrave { grid-column: 1 / -1; }
+    .product-stage .ruler { display: none; }
     .bento-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
     .bt { grid-column: 1 / -1 !important; grid-row: auto !important; }
     .process-row { grid-template-columns: 1fr 1fr; }
     .foot-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     .bento-head { grid-template-columns: 1fr; gap: 1rem; }
+    .spec-quick { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -473,11 +588,54 @@
 
 <!-- CONFIGURATOR -->
 <section class="config">
-  <!-- LEFT: Controls -->
-  <div class="ctrl-col">
+  <!-- LEFT: Product photo as hero -->
+  <div class="product-col">
+    <div class="product-meta">
+      <span class="sku-label">SKU <strong id="sku">K02-W-M</strong></span>
+      <span class="year">02 / первая партия</span>
+    </div>
+    <div class="product-stage">
+      <div class="ruler">
+        <span>220 мм</span>
+        <span>110 мм</span>
+        <span>0</span>
+      </div>
+      <img src="images/kettle.webp" alt="Studio Onda Kettle 02" class="product-img" id="product-img" />
+    </div>
+    <div class="sel-bar">
+      <div class="sel" id="sel-handle">
+        <span class="sw walnut" id="sel-handle-sw"></span>
+        <div>
+          <span class="sel-k">Рукоять</span>
+          <span class="sel-v" id="sel-handle-v">орех</span>
+        </div>
+      </div>
+      <div class="sel size-m" id="sel-size">
+        <span class="sw-sz"></span>
+        <div>
+          <span class="sel-k">Ёмкость</span>
+          <span class="sel-v" id="sel-size-v">1.2 л</span>
+        </div>
+      </div>
+      <div class="sel engrave">
+        <div>
+          <span class="sel-k">Гравировка</span>
+          <span class="plaque empty" id="sel-engrave-v">— не выбрана —</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: config panel -->
+  <div class="cfg-panel">
+    <div class="cfg-head">
+      <h1>Соберите <em>свой</em><br>Kettle 02.</h1>
+      <p class="sub">Каждый чайник собирается под заказ. Три выбора — ручка, ёмкость, гравировка. Картинка показывает ореховую ручку и литр — остальное описано в тексте.</p>
+    </div>
+
     <div class="ctrl-block">
-      <span class="label">Шаг 1 / Ручка</span>
-      <h3>Из чего рукоять</h3>
+      <span class="label">Шаг 1 · Рукоять</span>
+      <h3>Из чего</h3>
       <div class="opts" data-group="handle">
         <div class="opt active" data-val="walnut" data-price="0" data-label="Американский орех">
           <span class="swatch walnut"></span>
@@ -486,79 +644,62 @@
         </div>
         <div class="opt" data-val="ash" data-price="-2400" data-label="Светлый ясень">
           <span class="swatch ash"></span>
-          <span class="o-name">Ясень<small>светлее, мягкий рисунок, чуть мягче в руке</small></span>
+          <span class="o-name">Ясень<small>светлее, с мягким рисунком</small></span>
           <span class="o-delta negative">−2 400 ₽</span>
         </div>
         <div class="opt" data-val="brass" data-price="+6800" data-label="Латунь ручной патины">
           <span class="swatch brass"></span>
-          <span class="o-name">Латунь<small>ручная патина, с годами становится глубже</small></span>
+          <span class="o-name">Латунь<small>ручная патина, с годами глубже</small></span>
           <span class="o-delta">+6 800 ₽</span>
         </div>
       </div>
     </div>
 
     <div class="ctrl-block">
-      <span class="label">Шаг 2 / Ёмкость</span>
+      <span class="label">Шаг 2 · Ёмкость</span>
       <h3>Сколько воды</h3>
       <div class="opts" data-group="size">
         <div class="opt" data-val="s" data-price="-4900" data-label="0.8 литра" data-cups="4" data-watt="1200">
           <span class="swatch sz-s"></span>
-          <span class="o-name">0.8 л<small>на 4 чашки · 1200 Вт · кипит за 3:10</small></span>
+          <span class="o-name">0.8 л<small>4 чашки · 1200 Вт · кипит за 3:10</small></span>
           <span class="o-delta negative">−4 900 ₽</span>
         </div>
         <div class="opt active" data-val="m" data-price="0" data-label="1.2 литра" data-cups="6" data-watt="1500">
           <span class="swatch sz-m"></span>
-          <span class="o-name">1.2 л <strong style="color: var(--sage); font-weight:500;">· выбор по умолчанию</strong><small>на 6 чашек · 1500 Вт · кипит за 3:30</small></span>
+          <span class="o-name">1.2 л<small>6 чашек · 1500 Вт · кипит за 3:30</small></span>
           <span class="o-delta zero">в цене</span>
         </div>
         <div class="opt" data-val="l" data-price="+5200" data-label="1.6 литра" data-cups="8" data-watt="1800">
           <span class="swatch sz-l"></span>
-          <span class="o-name">1.6 л<small>на 8 чашек · 1800 Вт · кипит за 3:25</small></span>
+          <span class="o-name">1.6 л<small>8 чашек · 1800 Вт · кипит за 3:25</small></span>
           <span class="o-delta">+5 200 ₽</span>
         </div>
       </div>
     </div>
 
     <div class="ctrl-block">
-      <span class="label">Шаг 3 / Гравировка</span>
+      <span class="label">Шаг 3 · Гравировка</span>
       <h3>Написать что-нибудь</h3>
-      <div style="display: flex; gap: 0.5rem; align-items: center;">
-        <input type="text" id="engrave" placeholder="пусто · или имя, или дата" maxlength="18"
-               style="flex: 1; padding: 0.9rem 1rem; background: var(--bg-card); border: 1px solid var(--line); font-family: 'DM Sans'; font-size: 14px; color: var(--ink);" />
-        <span class="opt" style="padding: 0.9rem 1rem; cursor: default; grid-template-columns: auto; gap: 0; font-size: 12.5px; color: var(--dim);">+1 400 ₽</span>
+      <div class="engrave-row">
+        <input type="text" id="engrave" placeholder="имя, дата или пусто" maxlength="18" />
+        <span class="delta">+1 400 ₽</span>
       </div>
+      <p class="engrave-hint">Гравировка наносится лазером на латунную пластину у основания. До 18 знаков.</p>
     </div>
-  </div>
 
-  <!-- CENTER: Product -->
-  <div class="product-col">
-    <div class="backdrop"></div>
-    <span class="sku-tag">SKU · <strong id="sku">K02-W-M</strong></span>
-    <img src="images/kettle.webp" alt="Studio Onda Kettle 02" class="product-img" id="product-img" />
-    <span class="engrave-preview" id="engrave-preview"></span>
-    <div class="detail-circle d1">
-      <strong>Носик</strong>
-      <span>матовая сталь<br>направленная струя</span>
-    </div>
-    <div class="detail-circle d2">
-      <strong>Корпус</strong>
-      <span>керамика Shigaraki<br>1280° обжиг</span>
-    </div>
-  </div>
-
-  <!-- RIGHT: Price & Specs -->
-  <div class="spec-col">
+    <!-- Price card -->
     <div class="price-card">
       <span class="label">Ваша конфигурация</span>
-      <div class="price" style="margin-top: 0.5rem;">
+      <div class="price">
         <span class="price-num" id="price">38 900</span>
         <span class="price-sub">₽</span>
       </div>
-      <div class="price-old">До скидки: <strong>42 900 ₽</strong> · ранняя подписка</div>
+      <div class="price-old">До скидки: 42 900 ₽ · ранняя подписка</div>
       <div class="stock"><span class="stock-dot"></span><span id="stock">15 в наличии · отправка завтра</span></div>
       <button class="btn-buy">В корзину</button>
       <div class="shipping">СДЭК по Москве — бесплатно · по РФ — 390 ₽</div>
     </div>
+
     <div class="spec-quick">
       <div class="sq">
         <div class="sq-n" id="sq-cups">6 <em>чашек</em></div>
@@ -577,8 +718,9 @@
         <div class="sq-l">рукоять</div>
       </div>
     </div>
-    <div style="font-size: 12px; color: var(--dim); padding: 1rem; background: var(--bg-card); border-left: 2px solid var(--sage);">
-      Каждый чайник собирается в ателье по адресу <strong style="color: var(--ink);">Москва, Дубининская 35</strong>. Срок от заказа до отправки — 6 рабочих дней. Гарантия — 5 лет на керамику, 10 — на нагреватель.
+
+    <div class="atelier-note">
+      Каждый чайник собирается в ателье по адресу <strong>Москва, Дубининская 35</strong>. Срок от заказа до отправки — 6 рабочих дней. Гарантия: 5 лет на керамику, 10 — на нагреватель.
     </div>
   </div>
 </section>
@@ -738,6 +880,15 @@
     // stock copy based on config
     const stock = state.handle === 'brass' ? '4 в наличии · отправка через 3 дня' : '15 в наличии · отправка завтра';
     document.getElementById('stock').textContent = stock;
+
+    // honest selection indicators beneath product photo
+    const hsw = document.getElementById('sel-handle-sw');
+    hsw.className = 'sw ' + state.handle;
+    document.getElementById('sel-handle-v').textContent = state.handleShort;
+
+    const selSize = document.getElementById('sel-size');
+    selSize.className = 'sel size-' + state.size;
+    document.getElementById('sel-size-v').textContent = state.vol + ' л';
   }
 
   document.querySelectorAll('.opts').forEach(group => {
@@ -767,28 +918,32 @@
     });
   });
 
-  const engravePreview = document.getElementById('engrave-preview');
-  const productCol = document.querySelector('.product-col');
+  const plaque = document.getElementById('sel-engrave-v');
   document.getElementById('engrave').addEventListener('input', (e) => {
     const val = e.target.value.trim();
     state.engrave = val.length > 0;
-    engravePreview.textContent = val;
-    productCol.classList.toggle('has-engrave', state.engrave);
+    if (state.engrave) {
+      plaque.textContent = val;
+      plaque.classList.remove('empty');
+    } else {
+      plaque.textContent = '— не выбрана —';
+      plaque.classList.add('empty');
+    }
     updateUI();
   });
 
   updateUI();
 
-  // subtle tilt on product hover
+  // subtle tilt on product hover (only within stage)
   const prod = document.getElementById('product-img');
-  const col = prod.parentElement;
-  col.addEventListener('pointermove', (e) => {
-    const r = col.getBoundingClientRect();
+  const stage = prod.parentElement;
+  stage.addEventListener('pointermove', (e) => {
+    const r = stage.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
-    prod.style.transform = `rotate(${-x * 4}deg) translate(${x * 12}px, ${y * 6}px)`;
+    prod.style.transform = `rotate(${-x * 2.5}deg) translate(${x * 8}px, ${y * 4}px)`;
   });
-  col.addEventListener('pointerleave', () => {
+  stage.addEventListener('pointerleave', () => {
     prod.style.transform = '';
   });
 })();
